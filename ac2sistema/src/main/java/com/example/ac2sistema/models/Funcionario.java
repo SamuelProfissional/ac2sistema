@@ -36,16 +36,14 @@ public class Funcionario {
 
     @ManyToOne 
     @JoinColumn(name = "setor_id")
-    
-
     private Setor setor;
 
 
 
-@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
     @JoinTable(name = "PROJETO_FUNCIONARIO", joinColumns = {
-            @JoinColumn(name = "FUNCIONARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "PROJETO_ID") })
-@ToString.Exclude
+        @JoinColumn(name = "FUNCIONARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "PROJETO_ID") })
+         @ToString.Exclude
     private List<Projeto> projetos;
 
 }

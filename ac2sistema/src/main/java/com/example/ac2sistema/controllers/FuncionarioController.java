@@ -32,7 +32,7 @@ public class FuncionarioController {
 
     @GetMapping("{id}")
     public DadosProjetoDTO buscarProjeto(@PathVariable Integer id) {
-        return funcionarioService.buscarProjeto(id);
+        return funcionarioService.obterPorId(id);
     }
 
 }

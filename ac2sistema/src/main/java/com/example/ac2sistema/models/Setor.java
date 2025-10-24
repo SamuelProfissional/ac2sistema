@@ -24,7 +24,6 @@ public class Setor {
 
     @Id
     @GeneratedValue 
-
     private Integer id;
     
     @Column(length = 200, nullable = false)

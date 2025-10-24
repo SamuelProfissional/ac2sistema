@@ -25,10 +25,15 @@ public class ProjetoController {
         projetoService.salvar(projetoDTO);
     }
 
+    // alterei o return projetoService."buscarProjetoPorId"(id);
+    // POS CREIO QUE NO CODIGO ELE CHAME A FUNÇÃO QUE TEM NO SERVICE
     @GetMapping("{id}")
     public DadosProjetoDTO buscarProjetoPorId(@PathVariable Integer id) {
-        return projetoService.buscarProjetoPorId(id);
+        return projetoService.obterPorId(id);
     }
+
+   
+
 
 
 }

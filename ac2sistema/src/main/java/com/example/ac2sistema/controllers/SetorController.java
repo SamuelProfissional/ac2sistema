@@ -29,7 +29,7 @@ public class SetorController {
 
     @GetMapping("{id}")
     public DadosProjetoDTO buscarSetor(@PathVariable Integer id) {
-        return setorService.buscarSetor(id);
+        return setorService.obterPorId(id);
     }
 
 }

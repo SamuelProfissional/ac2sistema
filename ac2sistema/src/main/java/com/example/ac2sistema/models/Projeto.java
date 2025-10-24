@@ -30,7 +30,9 @@ public class Projeto {
     
     @Column(length = 200, nullable = false)
     private String nome;
+    @Column(name = "data_inicio", nullable = false)
     private LocalDate dataInicio;
+    @Column(name = "data_fim")
     private LocalDate dataFim;
 
     @ManyToMany(mappedBy = "projetos", fetch = FetchType.EAGER)

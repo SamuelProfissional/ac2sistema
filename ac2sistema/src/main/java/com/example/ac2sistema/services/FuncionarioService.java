@@ -9,12 +9,8 @@ public interface FuncionarioService {
 
     void salvar(FuncionarioRequestDTO funcionarioRequestDTO);
 
-    FuncionarioDTO obterPorId(Long id);
+    FuncionarioDTO obterPorId(Integer id);
 
-    void remover(Long id);
 
-    void editar(Long id, FuncionarioRequestDTO funcionarioRequestDTO);
-
-    List<FuncionarioDTO> obterTodos();
     
 }
