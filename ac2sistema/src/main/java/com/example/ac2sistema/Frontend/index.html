@@ -7,112 +7,115 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <a class="skip-link" href="#form-projeto">Pular para o formulário</a>
+    <div class="topo">
+        <h1>Gestão de Projetos</h1>
+        
+    </div>
 
-    <header class="site-header">
-        <h1>Projetos</h1>
-        <p class="subtitle">Gerencie seus projetos rapidamente</p>
-    </header>
-
-    <main class="container" role="main">
-        <section aria-labelledby="lista-title" class="projects-section">
-            <h2 id="lista-title" class="visually-hidden">Lista de Projetos</h2>
-            <ul id="lista-projetos" class="project-list" aria-live="polite">
+    <main class="conteudo">
+        <section class="bloco">
+            <h2>Projetos cadastrados</h2>
+            <ul id="lista-projetos" class="lista-projetos">
+                <li>Carregando...</li>
             </ul>
         </section>
 
-        <aside class="form-panel">
-            <form id="form-projeto" class="project-form" aria-describedby="form-help" novalidate>
-                <p id="form-help" class="form-help">Descrição e Data Início são obrigatórios.</p>
+        <section class="bloco">
+            <h2>Novo projeto</h2>
+            <form id="form-projeto">
+                <label for="descricao">Descrição</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Ex: Atualizar site" required />
 
-                <label for="descricao">Descrição:</label>
-                <input type="text" id="descricao" name="descricao" required placeholder="Descrição do projeto" />
-
-                <label for="dataInicio">Data Início:</label>
+                <label for="dataInicio">Data de início</label>
                 <input type="date" id="dataInicio" name="dataInicio" required />
 
-                <label for="dataFim">Data Fim:</label>
+                <label for="dataFim">Data de término (opcional)</label>
                 <input type="date" id="dataFim" name="dataFim" />
 
-                <button type="submit" class="btn-primary">Adicionar Projeto</button>
+                <button type="submit">Salvar projeto</button>
             </form>
-        </aside>
-
-        <div id="mensagem" class="message" aria-live="assertive"></div>
+            <div id="mensagem" class="mensagem"></div>
+        </section>
     </main>
 
-    <footer class="site-footer">
-        <small> <strong>Feito por:</strong> <br />
+    <footer class="rodape">
+        <small> <strong>AC2 - nome e ra:</strong> <br />
              Caio Souza - 171686<br />
              Samuel Rodrigues -  </small>
     </footer>
 
     <script>
-        const listaProjetos = document.getElementById('lista-projetos');
-        const formProjeto = document.getElementById('form-projeto');
+        const API_URL = 'http://localhost:8081/projetos';
+        const lista = document.getElementById('lista-projetos');
+        const formulario = document.getElementById('form-projeto');
         const mensagem = document.getElementById('mensagem');
 
         async function carregarProjetos() {
-            listaProjetos.innerHTML = 'Carregando...';
+            lista.innerHTML = '<li>Carregando...</li>';
             try {
-                const response = await fetch('http://localhost:8081/projetos');
-                if (!response.ok) throw new Error('Erro ao buscar projetos');
-                const projetos = await response.json();
-                if (projetos.length === 0) {
-                    listaProjetos.innerHTML = '<li>Nenhum projeto cadastrado.</li>';
+                const resposta = await fetch(API_URL);
+                if (!resposta.ok) {
+                    throw new Error('Erro ao buscar projetos.');
+                }
+                const dados = await resposta.json();
+
+                if (!Array.isArray(dados) || dados.length === 0) {
+                    lista.innerHTML = '<li>Nenhum projeto cadastrado.</li>';
                     return;
                 }
-                listaProjetos.innerHTML = '';
-                projetos.forEach(projeto => {
+
+                lista.innerHTML = '';
+                dados.forEach((item) => {
                     const li = document.createElement('li');
-                    li.textContent = `${projeto.descricao} (Início: ${projeto.dataInicio} - Fim: ${projeto.dataFim || 'N/A'})`;
-                    listaProjetos.appendChild(li);
+                    const fim = item.dataFim || 'Sem data de término';
+                    li.textContent = `${item.descricao} - início: ${item.dataInicio} | fim: ${fim}`;
+                    lista.appendChild(li);
                 });
-            } catch (error) {
-                listaProjetos.innerHTML = '<li>Erro ao carregar projetos.</li>';
+            } catch (erro) {
+                lista.innerHTML = '<li>Não foi possível carregar os projetos.</li>';
+                console.error(erro);
             }
         }
 
-        formProjeto.addEventListener('submit', async (event) => {
-            event.preventDefault();
+        formulario.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
             mensagem.textContent = '';
-            mensagem.className = 'message';
+            mensagem.className = 'mensagem';
 
-            const descricao = formProjeto.descricao.value.trim();
-            const dataInicio = formProjeto.dataInicio.value;
-            const dataFim = formProjeto.dataFim.value;
+            const descricao = formulario.descricao.value.trim();
+            const dataInicio = formulario.dataInicio.value;
+            const dataFim = formulario.dataFim.value || null;
 
             if (!descricao || !dataInicio) {
-                mensagem.textContent = 'Descrição e Data Início são obrigatórios.';
-                mensagem.classList.add('error');
+                mensagem.textContent = 'Informe descrição e data de início.';
+                mensagem.classList.add('erro');
                 return;
             }
 
-            const novoProjeto = {
-                descricao,
-                dataInicio,
-                dataFim: dataFim || null
-            };
+            const novoProjeto = { descricao, dataInicio, dataFim };
 
             try {
-                const response = await fetch('http://localhost:8081/projetos', {
+                const resposta = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(novoProjeto)
                 });
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao adicionar projeto');
+
+                if (!resposta.ok) {
+                    const corpo = await resposta.json().catch(() => ({}));
+                    const detalhe = Array.isArray(corpo?.errors) ? corpo.errors.join(', ') : corpo?.message;
+                    throw new Error(detalhe || 'Erro ao salvar projeto.');
                 }
-                mensagem.textContent = 'Projeto adicionado com sucesso!';
-                mensagem.classList.add('success');
-                formProjeto.reset();
+
+                mensagem.textContent = 'Projeto salvo!';
+                mensagem.classList.add('sucesso');
+                formulario.reset();
                 carregarProjetos();
-            } catch (error) {
-                mensagem.textContent = error.message;
-                mensagem.classList.add('error');
+            } catch (erro) {
+                mensagem.textContent = erro.message;
+                mensagem.classList.add('erro');
             }
         });
 

@@ -1,5 +1,6 @@
 package com.example.ac2sistema.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -34,16 +35,17 @@ public class Funcionario {
     @Column(length = 200, nullable = false)
     private String nome;
 
-    @ManyToOne 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "setor_id")
     private Setor setor;
 
 
 
-   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+   @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY) 
     @JoinTable(name = "PROJETO_FUNCIONARIO", joinColumns = {
         @JoinColumn(name = "FUNCIONARIO_ID") }, inverseJoinColumns = { @JoinColumn(name = "PROJETO_ID") })
          @ToString.Exclude
-    private List<Projeto> projetos;
+    @Builder.Default
+    private List<Projeto> projetos = new ArrayList<>();
 
 }

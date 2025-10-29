@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class DadosSetorDTO {
     private Integer id;
     private String nome;  
-    List<String> funcionarios;
+    private List<String> funcionarios;
 }
