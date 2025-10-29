@@ -1,35 +1,43 @@
 package com.example.ac2sistema.controllers;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ac2sistema.dtos.DadosProjetoDTO;
+import com.example.ac2sistema.dtos.DadosSetorDTO;
 import com.example.ac2sistema.dtos.SetorDTO;
 import com.example.ac2sistema.services.SetorService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-
 @RestController
-@RequestMapping("/setor")
+@RequestMapping("/setores")
 public class SetorController {
-    
-    private SetorService setorService;
+
+    private final SetorService setorService;
 
     public SetorController(SetorService setorService) {
         this.setorService = setorService;
     }
 
     @PostMapping
-    public void adicionarSetor(@RequestBody SetorDTO setorRequestDTO) {
-        setorService.salvar(setorRequestDTO);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void adicionar(@RequestBody SetorDTO setorDTO) {
+        setorService.salvar(setorDTO);
     }
 
-    @GetMapping("{id}")
-    public DadosProjetoDTO buscarSetor(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public DadosSetorDTO buscarSetorPorId(@PathVariable Integer id) {
         return setorService.obterPorId(id);
     }
 
+    @GetMapping
+    public List<DadosSetorDTO> listar() {
+        return setorService.listarTodos();
+    }
 }

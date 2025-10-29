@@ -1,14 +1,16 @@
 package com.example.ac2sistema.services;
 
-import com.example.ac2sistema.dtos.ProjetoDTO;
+import java.util.List;
+
+import com.example.ac2sistema.dtos.DadosSetorDTO;
 import com.example.ac2sistema.dtos.SetorDTO;
+import com.example.ac2sistema.models.Setor;
 
 public interface SetorService {
 
-    //ok
-    void salvar(SetorDTO setorDTO);
+    Setor salvar(SetorDTO setorDTO);
 
-    ProjetoDTO obterPorId(Integer id);
-   
-    
+    DadosSetorDTO obterPorId(Integer id);
+
+    List<DadosSetorDTO> listarTodos();
 }

@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+.topo {
+    background: #2a5aa5;
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+}
+
+.conteudo {
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.bloco {
+    background: #fff;
+    border: 1px solid #d7d7d7;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+h1, h2 {
+    margin: 0 0 12px 0;
+}
+
+.lista-projetos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.lista-projetos li {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 8px 0;
+    font-size: 14px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin: 12px 0 4px 0;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #bfbfbf;
+}
+
+button {
+    margin-top: 12px;
+    padding: 8px 14px;
+    background: #2a5aa5;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.mensagem {
+    margin-top: 12px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.mensagem.sucesso {
+    background: #d6f4d6;
+    border: 1px solid #7ac27a;
+    color: #1b661b;
+}
+
+.mensagem.erro {
+    background: #f9d2d2;
+    border: 1px solid #d66;
+    color: #8b1e1e;
+}
+
+.rodape {
+    font-size: 12px;
+    text-align: center;
+    padding: 16px;
+    color: #555;
+}
