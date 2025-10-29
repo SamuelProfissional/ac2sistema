@@ -34,6 +34,8 @@ public class Projeto {
     private LocalDate dataInicio;
     @Column(name = "data_fim")
     private LocalDate dataFim;
+    @Column(length = 200, nullable = false)
+    private String descricao;
 
     @ManyToMany(mappedBy = "projetos", fetch = FetchType.EAGER)
     @ToString.Exclude

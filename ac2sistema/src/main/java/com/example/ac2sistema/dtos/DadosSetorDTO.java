@@ -1,5 +1,4 @@
 package com.example.ac2sistema.dtos;
-import java.time.LocalDate;
 import java.util.List;
 
 import lombok.AllArgsConstructor;

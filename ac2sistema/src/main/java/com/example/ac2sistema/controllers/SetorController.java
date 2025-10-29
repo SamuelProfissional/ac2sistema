@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.ac2sistema.dtos.DadosProjetoDTO;
+import com.example.ac2sistema.dtos.DadosSetorDTO;
 import com.example.ac2sistema.dtos.SetorDTO;
 import com.example.ac2sistema.services.SetorService;
 
@@ -23,12 +22,12 @@ public class SetorController {
     }
 
     @PostMapping
-    public void adicionarSetor(@RequestBody SetorDTO setorRequestDTO) {
-        setorService.salvar(setorRequestDTO);
+    public void adicionarSetor(@RequestBody SetorDTO setorDTO) {
+        setorService.salvar(setorDTO);
     }
 
     @GetMapping("{id}")
-    public DadosProjetoDTO buscarSetor(@PathVariable Integer id) {
+    public DadosSetorDTO buscarSetor(@PathVariable Integer id) {
         return setorService.obterPorId(id);
     }
 

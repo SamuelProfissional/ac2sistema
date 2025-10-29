@@ -1,15 +1,13 @@
 package com.example.ac2sistema.controllers;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ac2sistema.dtos.DadosProjetoDTO;
-import com.example.ac2sistema.dtos.FuncionarioRequestDTO;
+import com.example.ac2sistema.dtos.FuncionarioDTO;
 import com.example.ac2sistema.services.FuncionarioService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -26,13 +24,14 @@ public class FuncionarioController {
     }
 
     @PostMapping
-    public void adicionarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO) {
-        funcionarioService.salvar(funcionarioRequestDTO);
+    public void adicionarFuncionario(@RequestBody FuncionarioDTO funcionarioDTO) {
+        funcionarioService.salvar(funcionarioDTO);
     }
 
     @GetMapping("{id}")
-    public DadosProjetoDTO buscarProjeto(@PathVariable Integer id) {
+    public FuncionarioDTO buscarProjeto(@PathVariable Integer id) {
         return funcionarioService.obterPorId(id);
     }
+
 
 }
